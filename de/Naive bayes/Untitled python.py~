@@ -1,0 +1,25 @@
+from sklearn import datasets
+iris = datasets.load_iris()
+from sklearn.naive_bayes import GaussianNB
+import matplotlib.pyplot as plt
+
+gnb = GaussianNB()
+
+gnb.fit(iris.data, iris.target)
+y_pred = gnb.predict(iris.data)
+
+"""
+print(iris.target)
+print(y_pred)"""
+
+#plt.plot(testSet,testSetTarget,color="black")
+#plt.show()
+#plt.plot(iris.data,color="red")
+plt.plot(iris.target,color="red")
+plt.show()
+plt.plot(y_pred,color="black")
+plt.show()
+
+print("Number of mislabeled points out of a total %d points : %d"% (iris.data.shape[0],(iris.target != y_pred).sum()))
+
+

@@ -1,0 +1,245 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Feb 19 15:24:23 2018
+
+@author: mtechcse
+"""
+
+#Name = [""]
+import math
+Hair = ['Bl','Bl','Br','Bl','Red','Br','Br','Bl']
+Height = ['a','t','s','s','a','t','a','s']
+Weight = ['l','a','a','a','h','h','h','l']
+Lotion = [1,0,0,1,1,1,1,0]
+S = [0,1,1,0,0,1,1,1]
+
+superSet = S
+#print(Hair[0])
+
+def findAttrEntropy(attr,val):
+    lenpos = 0
+    lennev = 0
+    total = len(attr)
+    for i in range(len(attr)):
+        if attr[i] == val:
+            if superSet[i] == 0:
+                lenpos += 1
+            else:
+                lennev += 1
+    ans = findEntropyValue(lenpos,lennev,total)
+    return ans
+           
+
+def findEntropy(attr):
+    lenpos = 0
+    lennev = 0
+    total = len(attr)
+    for i in attr:
+        if i == 0:
+            lenpos += 1
+        else:
+            lennev += 1
+    ans = findEntropyValue(lenpos,lennev,total)
+    return ans
+
+def findEntropyValue(lenpos,lennev,total):
+    if lenpos == lennev:
+        return 1
+    elif lenpos == 0:
+        return 0
+    elif  lennev == 0:
+        return 0
+    else:
+        ans = -((lenpos/total) * math.log((lenpos/total),2)) - ((lennev/total) * math.log((lennev/total),2)) 
+        return ans
+   
+   
+   
+
+def findInfogain(superSet,tempList,attr):
+    totalLength = len(superSet)
+    tempLengthList = [[]for _ in range(len(tempList))]
+    tempEntropyList = [[]for _ in range(len(tempList))]
+   
+    for k in range(len(tempList)):
+        tempLengthList[k] = 0
+        tempEntropyList[k] = 0
+   
+    for i in attr:
+        for j in range(len(tempList)):
+            if i == tempList[j]:
+                tempLengthList[j] += 1
+   
+    Es = findEntropy(superSet)
+   
+    i = 0
+    for i in range(len(tempEntropyList)):
+        tempEntropyList[i] = findAttrEntropy(attr,tempList[i])
+   
+    print(tempList)   
+    print(tempLengthList)
+    print(Es)
+    print(tempEntropyList)
+   
+    i = 0
+    sum = Es
+    for i in range(len(tempEntropyList)):
+        sum = sum - (tempLengthList[i]/totalLength*tempEntropyList[i])
+       
+    print(sum)
+    return sum               
+   
+
+def entropy(S):
+    counter = 0
+    lenTotal = len(S)
+    disValue = len(set(S))
+    tempList = [[]for _ in range(len(set(S)))]
+    for i in set(S):
+        if i in tempList:
+            pass
+        else:
+            tempList[counter] = i
+            counter += 1
+   
+    #print(tempList)
+    return findInfogain(superSet,tempList,S)
+   
+
+"""           
+    if pos == nev:
+        return 1
+    if pos == 0 | nev == 0:
+        return 0
+    ans = -((pos/total) * math.log((pos/total),2)) - ((nev/total) * math.log((nev/total),2)) 
+    return ans
+
+def entropy(S,attr):
+    if pos == nev:
+        return 1
+    if pos == 0 | nev == 0:
+        return 0
+    ans = -((pos/total) * math.log((pos/total),2)) - ((nev/total) * math.log((nev/total),2)) 
+    return ans
+"""
+
+# finding information gain
+"""def infoGain(S,Hair):
+    #find entropy of bl,red,br
+    Enbl = entropy(lenpos,lennev,len(Sunburn))
+    Enred = entropy(lenpos,lennev,len(Sunburn))
+    Enbr = entropy(lenpos,lennev,len(Sunburn))
+   
+    infogain = entropy(S) - totalbl/totalS*(Enbl) - totalred/totalS*(Enbl) - totalbr/totalS*(Enbl)
+"""   
+   
+#entropy s
+"""lenpos = 0
+lennev = 0
+for i in Sunburn:
+    if i == 0:
+        lenpos += 1
+    else:
+        lennev += 1
+"""
+
+#print(lenpos)
+#print(lennev)       
+#Ens = entropy(S)
+#print(Ens)
+eHair = entropy(Hair)
+eHeight = entropy(Height)
+eW = entropy(Weight)
+eL = entropy(Lotion)
+
+print(eHair)
+print(eHeight)
+print(eW)
+print(eL)
+
+listofAttributeLabel = ["Hair","Height","Weight","Lotion"]
+listofInfogain1 = [eHair,eHeight,eW,eL]
+
+print(listofAttributeLabel)
+print(listofInfogain1)
+
+#Hair has a max entropy
+
+maxInfogainlevel1 = max(listofInfogain1)
+print(maxInfogainlevel1)
+count = 0
+for i in listofInfogain1:
+    if i == maxInfogainlevel1:
+        break;
+    else:
+        count += 1
+
+print(listofAttributeLabel[count])
+
+# making hair a root node calculate the informationgain and entrpy again
+
+# finding information gain according to the attributes
+
+def findEntropyVal(lenpos,lennev):
+    total = lenpos + lennev
+    if lenpos == 0:
+        return 0
+    elif  lennev == 0:
+        return 0
+    elif lenpos == lennev:
+        return 1
+    else:
+        ans = -((lenpos/total) * math.log((lenpos/total),2)) - ((lennev/total) * math.log((lennev/total),2)) 
+        return ans
+
+
+def findInfoGainAttr(val1,attr):
+    setAttr = set(attr)
+    valAttr = []
+    count = 0
+    totalBl = 0
+    for i in Hair:
+        if i == 'bl':
+            totalBl+=1
+           
+    for i in setAttr:
+        valAttr.insert(count,i)
+        count+= 1
+    
+    entropylistAttr = []
+    totalList = []
+    #print(valAttr)
+    #when hair is bl
+    j = 0
+    for i in range(len(valAttr)):
+        pos = 0
+        nev = 0
+        for j in range(len(S)):
+            if Hair[j] == 'Bl':
+                #print('bl')
+                if attr[j] == valAttr[i]:
+                    print(attr[j],valAttr[i])
+                    if S[j] == 1:
+                        pos += 1
+                    elif S[j] == 0:
+                        nev += 1
+                   
+       
+        #print("pos",pos)
+        totalList.insert(i,pos+nev)
+        entropylistAttr.insert(i,findEntropyVal(pos,nev))
+   
+           
+    print(entropylistAttr)
+   
+    i = 0
+    sum = 1
+    for i in range(len(entropylistAttr)):
+        sum = sum - ((totalList[i]/4)*entropylistAttr[i])
+       
+    print(sum)
+    return sum               
+
+findInfoGainAttr('bl',Height)
+findInfoGainAttr('bl',Lotion)

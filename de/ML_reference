@@ -1,0 +1,51 @@
+IRIS Dataset..
+
+gaussian
+
+classifier = GaussianNB()
+
+bernoulli
+
+classifier = BernoulliNB()
+
+multinomial
+
+multinomial = MultinomialNB()
+
+svm
+
+classifier = svm.LinearSVC()
+
+NN
+
+classifier = MLPClassifier(solver = 'sgd', hidden_layer_sizes=(65), random_state=1, max_iter=500)
+
+############################################################
+
+Decision Tree..
+from sklearn.tree import DecisionTreeClassifier
+
+
+classifier = DecisionTreeClassifier(criterion = 'gini') #cart..
+classifier = DecisionTreeClassifier(criterion = 'entopy')	#id3 (by default)
+
+
+############################################################
+
+def calculate_error(t0, t1, data, 0, 100):
+	'''1/N sigma((yi - (t0 + t1*xi)))^2'''
+
+
+def step_gradient(t0, t1, data, learning_rate, 100<traning_data_size>):
+	'''
+	t0 = 1/N sigma((yi - (t0 + t1*xi)))
+	t1 = 1/N sigma((yi - (t0 + t1*xi))*xi)
+	'''
+
+def gradient_descent(data, initial_t0, initial_t1, learning_rate):
+	while abs(temp1 - temp) > 0.001:
+
+csv_file = input("name : ")
+data = genfromtxt("path.."+csv_file,delimeter = ",")
+[t0,t1,temp,count] = gradient_descent(data, initial_t0, initial_t1, learning_rate)
+
